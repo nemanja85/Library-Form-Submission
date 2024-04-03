@@ -1,0 +1,42 @@
+:root {
+  --color-dark: #242424;
+  --color-white: #fff;
+}
+
+body {
+  width: clamp(320px, 100%, 450px);
+  min-height: 100vh;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: var(--color-white);
+  margin: auto;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100svh;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--color-dark);
+  background-color: var(--color-white);
+  border: 2px solid var(--color-dark);
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+input[type="submit"] {
+  width: clamp(150px, 100%, 200px);
+  color: var(--color-white);
+  background-color: var(--color-dark);
+  margin: auto;
+  cursor: pointer;
+}
