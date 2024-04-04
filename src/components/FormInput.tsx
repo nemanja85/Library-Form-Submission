@@ -18,8 +18,6 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
 
   const { formData, setFormData } = formContext;
 
-  console.log('Data', name)
-
   let value = '';
 
   if (name?.includes(".")) {
@@ -30,13 +28,25 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    //@ts-expect-error TODO: finished later
-    setFormData(prevData => ({
-      ...prevData,
-      [name!]: value
-    }));
-    console.log("Updated", value)
+    const { value: updatedValue } = e.target;
+
+      if (name?.includes('.')) {
+        const [obj, property] = name.split('.');
+
+        setFormData(prevData => ({
+          ...prevData,
+          [obj]: {
+            ...prevData[obj],
+            [property]: updatedValue
+          }
+        }));
+      } else {
+
+        setFormData(prevData => ({
+          ...prevData,
+          [name!]: updatedValue
+        }));
+      }
   };
 
   return (

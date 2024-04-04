@@ -12,7 +12,8 @@ export const PageWithForm = () => {
       number: '65/123-456',
     },
   });
-
+  // Check new data after submitting the form
+  console.log(userInfo)
 
   return (
     <div>
