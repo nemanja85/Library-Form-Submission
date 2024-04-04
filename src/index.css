@@ -33,7 +33,7 @@ input {
   margin: 20px 0;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   width: clamp(150px, 100%, 200px);
   font-weight: 700;
   letter-spacing: 0.35rem;
@@ -45,6 +45,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
+input[type='submit']:hover {
   color: var(--color-dark);
-  background-color: var(--color-white);}
+  background-color: var(--color-white);
+}

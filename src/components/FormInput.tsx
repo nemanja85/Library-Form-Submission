@@ -6,7 +6,7 @@ type FormInputProps = {
   name?: string;
   placeHolder?: string;
   required?: boolean;
-  value?: string
+  value?: string;
 };
 
 export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
@@ -20,8 +20,8 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
 
   let value = '';
 
-  if (name?.includes(".")) {
-    const [obj, property] = name!.split(".");
+  if (name?.includes('.')) {
+    const [obj, property] = name!.split('.');
     value = formData[obj][property];
   } else {
     value = formData[name];
@@ -30,32 +30,23 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value: updatedValue } = e.target;
 
-      if (name?.includes('.')) {
-        const [obj, property] = name.split('.');
+    if (name?.includes('.')) {
+      const [obj, property] = name.split('.');
 
-        setFormData(prevData => ({
-          ...prevData,
-          [obj]: {
-            ...prevData[obj],
-            [property]: updatedValue
-          }
-        }));
-      } else {
-
-        setFormData(prevData => ({
-          ...prevData,
-          [name!]: updatedValue
-        }));
-      }
+      setFormData((prevData) => ({
+        ...prevData,
+        [obj]: {
+          ...prevData[obj],
+          [property]: updatedValue,
+        },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name!]: updatedValue,
+      }));
+    }
   };
 
-  return (
-    <input
-      type={type}
-      name={name}
-      placeholder={placeHolder!}
-      value={value}
-      onChange={handleChange}
-    />
-  );
+  return <input type={type} name={name} placeholder={placeHolder!} value={value} onChange={handleChange} />;
 };
