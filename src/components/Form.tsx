@@ -1,27 +1,30 @@
 // Form.tsx
-import { createContext, useContext, useState, FormEvent, ReactNode, FC, Dispatch, SetStateAction } from 'react';
+import { createContext, useState, FormEvent, ReactNode, FC, Dispatch, SetStateAction } from 'react';
 
-type FormData = {
-  [key: string]: string;
+type FormData<T> = {
+  [key: string]: string | number | T;
 }
 
-type FormHandler = (data: FormData) => void;
+type FormSubmitHandler<T> = (formData: T) => void;
 
-type FormContextProps = {
-  formData: FormData;
-  setFormData: Dispatch<SetStateAction<FormData>>;
-  handleSubmit?: FormHandler;
-};
-
-type FormProps = {
+type FormProps<T> = {
+  initialValues: T;
   children: ReactNode;
-  onSubmit: FormHandler;
+  onSubmit: FormSubmitHandler<T>;
 };
 
-const FormContext = createContext<FormContextProps | undefined>(undefined);
+type FormContext<T> = {
+    formData: T;
+    setFormData: Dispatch<SetStateAction<T>>;
+    onSubmit: Dispatch<SetStateAction<FormSubmitHandler<T>>>;
+}
 
-export const Form: FC<FormProps> = ({ children, onSubmit }) => {
-  const [formData, setFormData] = useState<FormData>({});
+//export  const FormAuthContext = () =>  createContext<FormAuthContext<T> | null>(null);
+
+ export const FormContext = createContext<FormContext<T> | null>(null);
+
+export const Form: FC<FormProps<T>> = ({ initialValues, onSubmit, children }) => {
+  const [formData, setFormData] = useState<FormData<T>>(initialValues);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,13 +32,12 @@ export const Form: FC<FormProps> = ({ children, onSubmit }) => {
   };
 
   return (
-      <FormContext.Provider value={{ formData, setFormData }}>
-        <form onSubmit={handleSubmit}>{children}</form>
+      <FormContext.Provider value={{ formData, setFormData, onSubmit }}>
+        <form onSubmit={handleSubmit}>
+          {children}
+        </form>
       </FormContext.Provider>
   );
 };
 
-export const useFormContext = () => {
-  const context = useContext(FormContext);
-  return context ? context : (() => { throw new Error('useFormContext must be used within a Form')});
-};
+
