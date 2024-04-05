@@ -10,13 +10,15 @@ type FormInputProps = {
 };
 
 export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
-  const formContext = useContext(FormContext);
+  const Context = () => {
+    const context = useContext(FormContext);
+    if (!context) {
+      throw new Error('Form Context must be used within a FormProvider');
+    }
+    return context;
+  };
 
-  if (!formContext) {
-    throw new Error('FormInput must be used within a FormProvider');
-  }
-
-  const { formData, setFormData } = formContext;
+  const { formData, setFormData } = Context();
 
   let value = '';
 
@@ -33,7 +35,7 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
     if (name?.includes('.')) {
       const [obj, property] = name.split('.');
 
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         [obj]: {
           ...prevData[obj],
@@ -41,7 +43,7 @@ export const FormInput: FC<FormInputProps> = ({ type, name, placeHolder }) => {
         },
       }));
     } else {
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         [name!]: updatedValue,
       }));
